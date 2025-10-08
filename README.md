@@ -10,4 +10,4 @@
 - **Run tests in UI mode:**
   ```sh
   npm run ui-mode
-  ```n
+  ```
