@@ -79,9 +79,7 @@ test.describe("[Heroku App] [Dynamic Loading]", () => {
     await page.waitForFunction(
       (selectors: { checkbox: string; button: string; label: string }) => {
         const checkbox = document.querySelector(selectors.checkbox);
-        const buttonText = document.querySelector(
-          selectors.button
-        )?.textContent;
+        const buttonText = document.querySelector(selectors.button)?.textContent;
         const message = document.querySelector(selectors.label)?.textContent;
 
         return !checkbox && buttonText === "Add" && message === "It's gone!";
@@ -91,18 +89,18 @@ test.describe("[Heroku App] [Dynamic Loading]", () => {
         button: "#checkbox-example > button",
         label: "p#message",
       },
-      { timeout: 10000 }
+      { timeout: 10000 },
     );
   });
 
-  test("Soft", async ({page}) => {
+  test("Soft", async ({ page }) => {
     const URL = "https://the-internet.herokuapp.com/checkboxes";
     await page.goto(URL);
-    await expect(page.getByRole("heading", {level: 3})).toHaveText("Checkboxes")
-    const form = page.locator("form#checkboxes")
-    const formText = await form.innerText()
-    const checkboxesTexts = formText!.split("\n").map((el) => el.trim())
-    expect.soft(checkboxesTexts[0], "checkbox1 await").toBe("Checkbox 1")
-    expect.soft(checkboxesTexts[1], "checkbox2 await").toBe("checkbox 2")
-  })
+    await expect(page.getByRole("heading", { level: 3 })).toHaveText("Checkboxes");
+    const form = page.locator("form#checkboxes");
+    const formText = await form.innerText();
+    const checkboxesTexts = formText!.split("\n").map((el) => el.trim());
+    expect.soft(checkboxesTexts[0], "checkbox1 await").toBe("Checkbox 1");
+    expect.soft(checkboxesTexts[1], "checkbox2 await").toBe("checkbox 2");
+  });
 });

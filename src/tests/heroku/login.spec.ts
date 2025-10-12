@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test";
-import { before, beforeEach } from "node:test";
 
 interface ICredentials {
   username: string;
@@ -61,7 +60,6 @@ test.describe("[Heroku App] [Form Authentification]", () => {
     await loginButton.click();
     await expect(notification).toBeVisible();
     const actualText = (await notification.innerText()).replace("×", " ").trim();
-    console.log(actualText)
     expect(actualText).toBe(NOTIFICATIONS.LOGIN_SUCCESS);
     await expect(notification).toContainText(NOTIFICATIONS.LOGIN_SUCCESS);
     await expect(securePageTitle).toContainText("Secure Area");
@@ -103,8 +101,6 @@ test.describe("[Heroku App] [Form Authentification]", () => {
     const userPasswordInput = page.locator("#password");
     const loginButton = page.locator('[type="submit"]');
     const notification = page.locator("#flash");
-    const logoutButton = page.locator('[href="/logout"]');
-    const pageTitle = page.locator("h2");
     //pre condition
     const { username, password } = invalidCredentials[1];
     await userNameInput.fill(username);
@@ -118,8 +114,6 @@ test.describe("[Heroku App] [Form Authentification]", () => {
     const userPasswordInput = page.locator("#password");
     const loginButton = page.locator('[type="submit"]');
     const notification = page.locator("#flash");
-    const logoutButton = page.locator('[href="/logout"]');
-    const pageTitle = page.locator("h2");
     //pre condition
     const { username, password } = invalidCredentials[2];
     await userNameInput.fill(username);
@@ -133,8 +127,6 @@ test.describe("[Heroku App] [Form Authentification]", () => {
     const userPasswordInput = page.locator("#password");
     const loginButton = page.locator('[type="submit"]');
     const notification = page.locator("#flash");
-    const logoutButton = page.locator('[href="/logout"]');
-    const pageTitle = page.locator("h2");
     //pre condition
     const { username, password } = invalidCredentials[3];
     await userNameInput.fill(username);
@@ -148,8 +140,6 @@ test.describe("[Heroku App] [Form Authentification]", () => {
     const userPasswordInput = page.locator("#password");
     const loginButton = page.locator('[type="submit"]');
     const notification = page.locator("#flash");
-    const logoutButton = page.locator('[href="/logout"]');
-    const pageTitle = page.locator("h2");
     //pre condition
     const { username, password } = invalidCredentials[3];
     await userNameInput.fill(username);
