@@ -9,7 +9,7 @@
     "code-gen": "npx playwright codegen",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-       "prettier": "prettier --config .prettierrc src/**/*.ts --check src/",
+    "prettier": "prettier --config .prettierrc src/**/*.ts --check src/",
     "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write src/",
     "format": " npm run prettier && npm run lint",
     "format:fix": "npm run prettier:fix && npm run lint:fix",
@@ -34,8 +34,20 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "prettier": "^3.6.2",
     "typescript-eslint": "^8.46.0"
+  },
+  "dependencies": {
+    "lint-staged": "^16.2.4"
+  },
+    "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "src/**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}": [
+      "prettier --write"
+    ]
   }
 }
