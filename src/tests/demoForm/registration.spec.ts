@@ -20,14 +20,10 @@ test.describe("[anatoly-karpovich] [registration]", () => {
     await userNameOnRegisterField.fill(username);
     await passwordOnRegisterField.fill(password);
     await registerButtonOnRegForm.click();
-    await expect(messageOnRegisterForm).toHaveText(
-      NOTIFICATIONS.SUCCESS_REGISTER
-    );
+    await expect(messageOnRegisterForm).toHaveText(NOTIFICATIONS.SUCCESS_REGISTER);
   });
 
-  test("Should register with valid min length username and min length password", async ({
-    page,
-  }) => {
+  test("Should register with valid min length username and min length password", async ({ page }) => {
     const userNameOnRegisterField = page.locator("#userNameOnRegister");
     const passwordOnRegisterField = page.locator("#passwordOnRegister");
     const registerButtonOnRegForm = page.locator("#register");
@@ -36,14 +32,10 @@ test.describe("[anatoly-karpovich] [registration]", () => {
     await userNameOnRegisterField.fill(username);
     await passwordOnRegisterField.fill(password);
     await registerButtonOnRegForm.click();
-    await expect(messageOnRegisterForm).toHaveText(
-      NOTIFICATIONS.SUCCESS_REGISTER
-    );
+    await expect(messageOnRegisterForm).toHaveText(NOTIFICATIONS.SUCCESS_REGISTER);
   });
 
-  test("Should register with valid max length username and max length password", async ({
-    page,
-  }) => {
+  test("Should register with valid max length username and max length password", async ({ page }) => {
     const userNameOnRegisterField = page.locator("#userNameOnRegister");
     const passwordOnRegisterField = page.locator("#passwordOnRegister");
     const registerButtonOnRegForm = page.locator("#register");
@@ -52,16 +44,12 @@ test.describe("[anatoly-karpovich] [registration]", () => {
     await userNameOnRegisterField.fill(username);
     await passwordOnRegisterField.fill(password);
     await registerButtonOnRegForm.click();
-    await expect(messageOnRegisterForm).toHaveText(
-      NOTIFICATIONS.SUCCESS_REGISTER
-    );
+    await expect(messageOnRegisterForm).toHaveText(NOTIFICATIONS.SUCCESS_REGISTER);
   });
 });
 
 test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
-  test("Check registration on anatoly-karpovich.github.io/demo-registration-form", async ({
-    page,
-  }) => {
+  test("Check registration on anatoly-karpovich.github.io/demo-registration-form", async ({ page }) => {
     const URL = "https://anatoly-karpovich.github.io/demo-registration-form/";
     const pageTitle = page.locator("h2");
     const firstName = page.locator("#firstName");
@@ -80,9 +68,7 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
     const password = page.locator("#password");
     const confirmPassword = page.locator("#password-confirm");
     const submitButton = page.locator('[type="submit"]');
-    const title = page.locator(
-      "//h2[contains(text(), 'Registration Details')]"
-    );
+    const title = page.locator("//h2[contains(text(), 'Registration Details')]");
     const fullNameDetails = page.locator("#fullName");
     const genderDetails = page.locator("#gender");
     const hobbiesDetails = page.locator("#hobbies");
@@ -118,9 +104,7 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
     await expect(title).toHaveText("Registration Details");
 
     await expect(email).toHaveText(user.email);
-    await expect(fullNameDetails).toHaveText(
-      `${user.firstName} ${user.lastName}`
-    );
+    await expect(fullNameDetails).toHaveText(`${user.firstName} ${user.lastName}`);
     await expect(address).toHaveText(user.address);
     await expect(phone).toHaveText(user.phone);
     await expect(country).toHaveText(user.country);
@@ -128,9 +112,7 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
     await expect(language).toHaveText(user.language);
     await expect(skills).toHaveText(user.skills.join(", "));
     await expect(hobbiesDetails).toHaveText(user.hobbies.join(", "));
-    await expect(dateOfBirth).toHaveText(
-      `${user.dayOfBirth} ${user.monthOfBirth} ${user.yearOfBirth}`
-    );
+    await expect(dateOfBirth).toHaveText(`${user.dayOfBirth} ${user.monthOfBirth} ${user.yearOfBirth}`);
     expect((await password.innerText()).length).toBe(user.password.length);
   });
 });

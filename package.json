@@ -5,7 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test:ui": "npx playwright test",
-    "ui-mode": "npx playwright test --ui"
+    "ui-mode": "npx playwright test --ui",
+    "code-gen": "npx playwright codegen",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --config .prettierrc src/**/*.ts --check src/",
+    "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write src/",
+    "format": " npm run prettier && npm run lint",
+    "format:fix": "npm run prettier:fix && npm run lint:fix",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -19,7 +27,27 @@
   },
   "homepage": "https://github.com/VadzimKhomich/playwright_project#readme",
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
     "@playwright/test": "^1.56.0",
-    "@types/node": "^24.7.0"
+    "@types/node": "^24.7.0",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.6.1",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.46.0"
+  },
+  "dependencies": {
+    "lint-staged": "^16.2.4"
+  },
+    "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "src/**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}": [
+      "prettier --write"
+    ]
   }
 }
