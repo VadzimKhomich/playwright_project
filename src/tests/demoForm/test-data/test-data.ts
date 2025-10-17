@@ -1,4 +1,4 @@
-import { IUser, IUserData } from "../types/types";
+import { IUser, IUserData, IUsersData } from "../types/types";
 
 export enum NOTIFICATIONS {
   SUCCESS_REGISTER = "Successfully registered! Please, click Back to return on login page",
@@ -35,3 +35,31 @@ export const user: IUserData = {
   monthOfBirth: "November",
   dayOfBirth: "30",
 };
+
+export const successMessage = "Successfully registered! Please, click Back to return on login page";
+export const userData: IUsersData[] = [
+  {
+    credentials: {
+      username: "Vadim1234567",
+      password: "Vadim1234567",
+    },
+    title: "Smoke credentials",
+    successMessage: successMessage,
+  },
+  {
+    credentials: {
+      username: "Emy",
+      password: "12346Aa777",
+    },
+    title: "Min valid credentials",
+    successMessage: successMessage,
+  },
+  {
+    credentials: {
+      username: "Emyrsafasdwefdsfdsddsdsdsdsd",
+      password: "12346Aasdsdfdsdfdf",
+    },
+    title: "Max valid credentials",
+    successMessage: successMessage,
+  },
+];

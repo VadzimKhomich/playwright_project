@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { NOTIFICATIONS, user, validRegistrData } from "./test-data/test-data";
+import { NOTIFICATIONS, user, userData, validRegistrData } from "./test-data/test-data";
 
 test.describe("[anatoly-karpovich] [registration]", () => {
   test.beforeEach(async ({ page }) => {
@@ -115,4 +115,28 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
     await expect(dateOfBirth).toHaveText(`${user.dayOfBirth} ${user.monthOfBirth} ${user.yearOfBirth}`);
     expect((await password.innerText()).length).toBe(user.password.length);
   });
+});
+
+test.describe("[Demo Login Form] [Registratiuon]", () => {
+  const URL = "https://anatoly-karpovich.github.io/demo-login-form/";
+  for (const { title, credentials, successMessage } of userData) {
+    test(title, async ({ page }) => {
+      await page.goto(URL);
+      const button = page.locator('.loginForm [value="Register"]');
+      await expect(button).toBeVisible();
+      await button.click();
+      const registerform = page.locator(".registerForm");
+      const registerFormTitle = registerform.locator("#registerForm");
+      const usernameInput = registerform.locator('[type="text"]');
+      const passwordInput = registerform.locator('[type="password"]');
+      const registerButton = registerform.locator('[type="submit"]');
+      const { username, password } = credentials;
+      const message = registerform.locator("h4");
+      await expect(registerFormTitle).toBeVisible();
+      await usernameInput.fill(username);
+      await passwordInput.fill(password);
+      await registerButton.click();
+      await expect(message).toHaveText(successMessage);
+    });
+  }
 });
