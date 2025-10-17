@@ -113,3 +113,16 @@ export interface IUserData {
   monthOfBirth: Months;
   dayOfBirth: Days;
 }
+
+export interface IUsersData {
+  title: string;
+  credentials: IUser;
+  successMessage: string;
+}
+
+export interface IRegistrationData {
+  title: string;
+  username: string;
+  password: string;
+  errorMessage: string;
+}

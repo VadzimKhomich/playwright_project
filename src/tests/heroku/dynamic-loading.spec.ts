@@ -23,34 +23,15 @@ test.describe("[Heroku App] [Dynamic Loading]", () => {
     await page.getByRole("button", { name: "login" }).click();
   });
 
-  // test("Advanced locators", async ({page}) => {
-  //     const URL = "https://anatoly-karpovich.github.io/demo-login-form/"
-  //     await page.goto(URL)
-  //     const form = page.locator('form', {
-  //         // hasText: "",
-  //         // hasNotText:"",
-  //         has: page.locator("input#userName")
-
-  //     })
-  //     const usrnameIntop = form.locator("input#userName")
-  // })
-
-  //   npx playwright codegen https://anatoly-karpovich.github.io/demo-login-form/
-
   test("Waits with expects", async ({ page }) => {
     const URL = "https://the-internet.herokuapp.com";
     await page.goto(URL);
     await page.locator('[href="/dynamic_loading"]').click();
     await page.locator('[href="/dynamic_loading/2"]').click();
     await page.locator("#start button").click();
-    // const text = await page.locator("#finish").getByRole('heading', {level: 4}).innerText()
-    // console.log(text)
     const heading = page.locator("#finish").getByRole("heading", { level: 4 });
-    // await expect(heading).toBeVisible({timeout: 20000})
     const loader = page.locator("#loading");
     await expect(loader).toBeVisible();
-    // const isDisplayed = await loader.isVisible()
-    // console.log(isDisplayed)
     await expect(loader, "waitiing for loading bar to disappear").toBeVisible({
       visible: false,
       timeout: 20000,
