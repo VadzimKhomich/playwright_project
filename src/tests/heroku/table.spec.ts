@@ -136,7 +136,6 @@ test.describe("[Heroku App] [table]", () => {
     const emails = await table.locator("tbody tr td.email").allInnerTexts();
     for (const email of emails) {
       const row = await getTableRow(page, email);
-      console.log(row);
       expect(tableDataExpected).toContainEqual(row);
     }
   });
