@@ -1,4 +1,20 @@
-import test, { expect } from "@playwright/test";
+import test, { expect, Page } from "@playwright/test";
+
+async function getTableRow(page: Page, email: string) {
+  const table = page.locator("#table2");
+  const headers = await table.locator("th").allInnerTexts();
+  headers.pop();
+  const row = table.locator("tbody tr").filter({ hasText: email });
+  const rowData = await row.locator("td").allInnerTexts();
+  rowData.pop();
+  expect(headers.length).toBe(rowData.length);
+  const resultObject = headers.reduce<Record<string, string>>((result, header, i) => {
+    result[header] = rowData[i] ?? "";
+    return result;
+  }, {});
+  console.log(resultObject);
+  return resultObject;
+}
 
 test.describe("[Heroku App] [table]", () => {
   const URL = "https://the-internet.herokuapp.com";
@@ -82,5 +98,46 @@ test.describe("[Heroku App] [table]", () => {
     expectedTable.forEach((row, i) => {
       expect(row, "Expected row should be equal").toEqual(tableData[i]);
     });
+  });
+
+  test("Check getTableRow function", async ({ page }) => {
+    const tableDataExpected = [
+      {
+        "Last Name": "Smith",
+        "First Name": "John",
+        Email: "jsmith@gmail.com",
+        Due: "$50.00",
+        "Web Site": "http://www.jsmith.com",
+      },
+      {
+        "Last Name": "Bach",
+        "First Name": "Frank",
+        Email: "fbach@yahoo.com",
+        Due: "$51.00",
+        "Web Site": "http://www.frank.com",
+      },
+      {
+        "Last Name": "Doe",
+        "First Name": "Jason",
+        Email: "jdoe@hotmail.com",
+        Due: "$100.00",
+        "Web Site": "http://www.jdoe.com",
+      },
+      {
+        "Last Name": "Conway",
+        "First Name": "Tim",
+        Email: "tconway@earthlink.net",
+        Due: "$50.00",
+        "Web Site": "http://www.timconway.com",
+      },
+    ];
+    const table = page.locator("#table2");
+    await page.goto("https://the-internet.herokuapp.com/tables");
+    const emails = await table.locator("tbody tr td.email").allInnerTexts();
+    for (const email of emails) {
+      const row = await getTableRow(page, email);
+      console.log(row);
+      expect(tableDataExpected).toContainEqual(row);
+    }
   });
 });
