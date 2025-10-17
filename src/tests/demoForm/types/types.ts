@@ -119,3 +119,10 @@ export interface IUsersData {
   credentials: IUser;
   successMessage: string;
 }
+
+export interface IRegistrationData {
+  title: string;
+  username: string;
+  password: string;
+  errorMessage: string;
+}

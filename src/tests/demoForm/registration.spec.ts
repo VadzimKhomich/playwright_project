@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { NOTIFICATIONS, user, userData, validRegistrData } from "./test-data/test-data";
+import { NOTIFICATIONS, registrationInvalidData, user, userData, validRegistrData } from "./test-data/test-data";
 
 test.describe("[anatoly-karpovich] [registration]", () => {
   test.beforeEach(async ({ page }) => {
@@ -117,7 +117,7 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
   });
 });
 
-test.describe("[Demo Login Form] [Registratiuon]", () => {
+test.describe("[Demo Login Form] [Registration]", () => {
   const URL = "https://anatoly-karpovich.github.io/demo-login-form/";
   for (const { title, credentials, successMessage } of userData) {
     test(title, async ({ page }) => {
@@ -137,6 +137,40 @@ test.describe("[Demo Login Form] [Registratiuon]", () => {
       await passwordInput.fill(password);
       await registerButton.click();
       await expect(message).toHaveText(successMessage);
+    });
+  }
+});
+
+test.describe("[Demo Login Form] [Invalid Registration]", () => {
+  const URL = "https://anatoly-karpovich.github.io/demo-login-form/";
+  for (const { username, password, title, errorMessage } of registrationInvalidData) {
+    test(title, async ({ page }) => {
+      const loginForm = page.locator(".loginForm");
+      const registerForm = page.locator(".registerForm");
+      const registerButtonOnLoginForm = loginForm.locator("#registerOnLogin");
+      const registerButtonRegisterForm = registerForm.locator("#register");
+      const errorMessageOnRegisterForm = registerForm.locator("#errorMessageOnRegister");
+      const usernameField = registerForm.locator("#userNameOnRegister");
+      const passwordField = registerForm.locator("#passwordOnRegister");
+
+      await page.goto(URL);
+      await page.evaluate(() => {
+        localStorage.setItem("existingUser", JSON.stringify({ name: "existingUser", password: "andPassword" }));
+        const passwordElement = document.querySelector("#passwordOnRegister")!;
+        const usernameElement = document.querySelector("#userNameOnRegister")!;
+        passwordElement.setAttribute("maxlength", "21");
+        usernameElement.setAttribute("maxlength", "41");
+      });
+      await expect(loginForm, "login form is displayed").toBeVisible();
+      await expect(registerButtonOnLoginForm, "register button is displayed").toBeVisible();
+      await registerButtonOnLoginForm.click();
+      await passwordField.getAttribute("maxlength");
+      await expect(registerForm, "register form is displayed").toBeVisible();
+      await expect(registerButtonRegisterForm, "register button is displayed").toBeVisible();
+      await usernameField.fill(username);
+      await passwordField.fill(password);
+      await registerButtonRegisterForm.click();
+      await expect(errorMessageOnRegisterForm, "check error message").toHaveText(errorMessage);
     });
   }
 });
