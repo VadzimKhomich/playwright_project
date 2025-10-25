@@ -126,3 +126,10 @@ export interface IRegistrationData {
   password: string;
   errorMessage: string;
 }
+export interface ITableRow {
+  "Last Name": string;
+  "First Name": string;
+  Email: string;
+  Due: string;
+  "Web Site": string;
+}

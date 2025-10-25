@@ -1,4 +1,5 @@
 import test, { expect, Page } from "@playwright/test";
+import { ITableRow } from "tests/demoForm/types/types";
 
 async function getTableRow(page: Page, email: string): Promise<Record<string, string>> {
   const table = page.locator("#table2");
@@ -101,7 +102,7 @@ test.describe("[Heroku App] [table]", () => {
   });
 
   test("Check getTableRow function", async ({ page }) => {
-    const tableDataExpected = [
+    const tableDataExpected: ITableRow[] = [
       {
         "Last Name": "Smith",
         "First Name": "John",
