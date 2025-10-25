@@ -51,7 +51,7 @@ export const userData: IUsersData[] = [
       username: "Emy",
       password: "12346Aa777",
     },
-    title: "Min valid credentials",
+    title: "3 letters username in credentials",
     successMessage: successMessage,
   },
   {
@@ -59,7 +59,7 @@ export const userData: IUsersData[] = [
       username: "Emyrsafasdwefdsfdsddsdsdsdsd",
       password: "12346Aasdsdfdsdfdf",
     },
-    title: "Max valid credentials",
+    title: "40 letter username in credentials",
     successMessage: successMessage,
   },
 ];

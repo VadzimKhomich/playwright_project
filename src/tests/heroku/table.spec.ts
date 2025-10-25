@@ -1,6 +1,6 @@
 import test, { expect, Page } from "@playwright/test";
 
-async function getTableRow(page: Page, email: string) {
+async function getTableRow(page: Page, email: string): Promise<Record<string, string>> {
   const table = page.locator("#table2");
   const headers = await table.locator("th").allInnerTexts();
   headers.pop();
@@ -12,13 +12,13 @@ async function getTableRow(page: Page, email: string) {
     result[header] = rowData[i] ?? "";
     return result;
   }, {});
-  console.log(resultObject);
   return resultObject;
 }
 
 test.describe("[Heroku App] [table]", () => {
   const URL = "https://the-internet.herokuapp.com";
   test("Single locator with more than element", async ({ page }) => {
+    const NUMBER_OF_LINKS = 44;
     await page.goto(URL);
     const allLinks = page.locator("ul li a");
     const allLinksWithAInText = allLinks.filter({ hasText: "a" });
@@ -32,7 +32,7 @@ test.describe("[Heroku App] [table]", () => {
     console.log(await secondElement.innerText());
     console.log(await lasttElement.innerText());
 
-    await expect(allLinks).toHaveCount(44);
+    await expect(allLinks).toHaveCount(NUMBER_OF_LINKS);
   });
 
   test("Single locator with more than element", async ({ page }) => {
