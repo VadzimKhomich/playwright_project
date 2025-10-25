@@ -100,7 +100,7 @@ test.describe("[Heroku App] [Dynamic Loading]", () => {
     const form = page.locator("form#checkboxes");
     const formText = await form.innerText();
     const checkboxesTexts = formText!.split("\n").map((el) => el.trim());
-    expect.soft(checkboxesTexts[0], "checkbox1 await").toBe("Checkbox 1");
+    expect.soft(checkboxesTexts[0], "checkbox1 await").toBe("checkbox 1");
     expect.soft(checkboxesTexts[1], "checkbox2 await").toBe("checkbox 2");
   });
 });
