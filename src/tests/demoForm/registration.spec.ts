@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { NOTIFICATIONS, user, validRegistrData } from "./test-data/test-data";
+import { NOTIFICATIONS, registrationInvalidData, user, userData, validRegistrData } from "./test-data/test-data";
 
 test.describe("[anatoly-karpovich] [registration]", () => {
   test.beforeEach(async ({ page }) => {
@@ -115,4 +115,62 @@ test.describe("[anatoly-karpovich] [registration SMOKE]", () => {
     await expect(dateOfBirth).toHaveText(`${user.dayOfBirth} ${user.monthOfBirth} ${user.yearOfBirth}`);
     expect((await password.innerText()).length).toBe(user.password.length);
   });
+});
+
+test.describe("[Demo Login Form] [Registration]", () => {
+  const URL = "https://anatoly-karpovich.github.io/demo-login-form/";
+  for (const { title, credentials, successMessage } of userData) {
+    test(title, async ({ page }) => {
+      await page.goto(URL);
+      const button = page.locator('.loginForm [value="Register"]');
+      await expect(button).toBeVisible();
+      await button.click();
+      const registerform = page.locator(".registerForm");
+      const registerFormTitle = registerform.locator("#registerForm");
+      const usernameInput = registerform.locator('[type="text"]');
+      const passwordInput = registerform.locator('[type="password"]');
+      const registerButton = registerform.locator('[type="submit"]');
+      const { username, password } = credentials;
+      const message = registerform.locator("h4");
+      await expect(registerFormTitle).toBeVisible();
+      await usernameInput.fill(username);
+      await passwordInput.fill(password);
+      await registerButton.click();
+      await expect(message).toHaveText(successMessage);
+    });
+  }
+});
+
+test.describe("[Demo Login Form] [Invalid Registration]", () => {
+  const URL = "https://anatoly-karpovich.github.io/demo-login-form/";
+  for (const { username, password, title, errorMessage } of registrationInvalidData) {
+    test(title, async ({ page }) => {
+      const loginForm = page.locator(".loginForm");
+      const registerForm = page.locator(".registerForm");
+      const registerButtonOnLoginForm = loginForm.locator("#registerOnLogin");
+      const registerButtonRegisterForm = registerForm.locator("#register");
+      const errorMessageOnRegisterForm = registerForm.locator("#errorMessageOnRegister");
+      const usernameField = registerForm.locator("#userNameOnRegister");
+      const passwordField = registerForm.locator("#passwordOnRegister");
+
+      await page.goto(URL);
+      await page.evaluate(() => {
+        localStorage.setItem("existingUser", JSON.stringify({ name: "existingUser", password: "andPassword" }));
+        const passwordElement = document.querySelector("#passwordOnRegister")!;
+        const usernameElement = document.querySelector("#userNameOnRegister")!;
+        passwordElement.setAttribute("maxlength", "21");
+        usernameElement.setAttribute("maxlength", "41");
+      });
+      await expect(loginForm, "login form is displayed").toBeVisible();
+      await expect(registerButtonOnLoginForm, "register button is displayed").toBeVisible();
+      await registerButtonOnLoginForm.click();
+      await passwordField.getAttribute("maxlength");
+      await expect(registerForm, "register form is displayed").toBeVisible();
+      await expect(registerButtonRegisterForm, "register button is displayed").toBeVisible();
+      await usernameField.fill(username);
+      await passwordField.fill(password);
+      await registerButtonRegisterForm.click();
+      await expect(errorMessageOnRegisterForm, "check error message").toHaveText(errorMessage);
+    });
+  }
 });
