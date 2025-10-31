@@ -1,17 +1,21 @@
+import { IProductDetails } from "data/types/product.types";
 import { Modal } from "../modal.page";
+import { MANUFACTURERS } from "data/products/manufactures";
 
 export class ProductDetailModal extends Modal {
   readonly uniqElement = this.page.locator("#details-modal-container");
-  readonly valueFromFromDetails = (parametrName: string) =>
-    this.uniqElement.locator(`//h6[.//strong[contains(normalize-space(.), "${parametrName}")]]/following-sibling::p`);
+  readonly productValues = this.uniqElement.locator("p");
+  readonly editProductButton = this.uniqElement.locator(".modal-footer .btn-primary");
 
-  async getProductFromDetails() {
+  async getProductFromDetails(): Promise<IProductDetails> {
+    const [name, amount, price, manufacturer, createdOn, notes] = await this.productValues.allInnerTexts();
     return {
-      name: await this.valueFromFromDetails("Name").textContent(),
-      amount: Number(await this.valueFromFromDetails("Amount").textContent()),
-      price: Number(await this.valueFromFromDetails("Price").textContent()),
-      manufacturer: await this.valueFromFromDetails("Manufacturer").textContent(),
-      notes: await this.valueFromFromDetails("Notes").textContent(),
+      name,
+      amount: +amount,
+      price: +price,
+      manufacturer: manufacturer as MANUFACTURERS,
+      createdOn,
+      notes: notes === "-" ? "" : notes,
     };
   }
 }

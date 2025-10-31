@@ -1,11 +1,15 @@
-import { Actions } from "data/types/product.types";
+import { Actions, IProduct, IProductFromTable } from "data/types/product.types";
 import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "../sales.portal.page";
+import { MANUFACTURERS } from "data/products/manufactures";
+import { ProductDetailModal } from "../modals/products/product.detail.modal";
 
 export class ProductsListPage extends SalesPortalPage {
+  readonly detailsModal = new ProductDetailModal(this.page)
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly addNewProductButton = this.page.locator("[name='add-button']");
   readonly uniqElement = this.addNewProductButton;
+  readonly tableRow = this.page.locator("tbody tr");
   readonly tableRowByName = (productName: string) =>
     this.page.locator(`//table/tbody/tr[./td[text()="${productName}"]]`);
   readonly detailsButton = (productName: string) => this.tableRowByName(productName).getByTitle("Details");
@@ -24,12 +28,30 @@ export class ProductsListPage extends SalesPortalPage {
     };
     await actionsButtons[action].click();
   }
-  async getProductDataFromTable(productName: string) {
-    const [name, price, manufacturer] = await this.tableRowByName(productName).locator("td").allTextContents();
+  async getProductDataFromTable(productName: string): Promise<IProductFromTable> {
+    const [name, price, manufacturer, createdOn] = await this.tableRowByName(productName)
+      .locator("td")
+      .allTextContents();
     return {
       name,
       price: +price.replaceAll("$", ""),
-      manufacturer,
+      manufacturer: manufacturer as MANUFACTURERS,
+      createdOn,
     };
+  }
+
+  async getTableData() {
+    const data: IProductFromTable[] = [];
+    const rows = await this.tableRow.all();
+    for (const row of rows) {
+      const [name, price, manufacturer, createdOn] = await row.locator("td").allTextContents();
+      data.push({
+        name,
+        price: +price.replaceAll("$", ""),
+        manufacturer: manufacturer as MANUFACTURERS,
+        createdOn,
+      });
+    }
+    return data
   }
 }

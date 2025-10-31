@@ -8,4 +8,12 @@ export interface IProduct {
   notes?: string;
 }
 
+export interface ICreatedOn {
+  createdOn: string;
+}
+
 export type Actions = "Details" | "Edit" | "Delete";
+
+export interface IProductFromTable extends Pick<IProduct, "name" | "manufacturer" | "price">, ICreatedOn {}
+
+export interface IProductDetails extends Required<IProduct>, ICreatedOn {}

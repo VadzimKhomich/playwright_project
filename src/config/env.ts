@@ -1,8 +1,8 @@
 import { ICredentials } from "data/types/credentials.types";
 
-export const SALES_PORTAL_URL = "http://localhost:8585/#/login";
+export const SALES_PORTAL_URL = process.env.SALES_PORTAL_URL!;
 
 export const credentials: ICredentials = {
-  username: "admin@example.com",
-  password: "admin123",
+  username: process.env.USER_NAME!,
+  password: process.env.USER_PASSWORD!,
 };
