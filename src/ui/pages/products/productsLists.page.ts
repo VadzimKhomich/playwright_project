@@ -1,11 +1,13 @@
-import { Actions, IProduct, IProductFromTable } from "data/types/product.types";
+import { Actions, IProductFromTable } from "data/types/product.types";
 import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "../sales.portal.page";
 import { MANUFACTURERS } from "data/products/manufactures";
 import { ProductDetailModal } from "../modals/products/product.detail.modal";
+import { DeleteModal } from "../modals/delete.modal";
 
 export class ProductsListPage extends SalesPortalPage {
-  readonly detailsModal = new ProductDetailModal(this.page)
+  readonly detailsModal = new ProductDetailModal(this.page);
+  readonly deleteModal = new DeleteModal(this.page);
   readonly productsPageTitle = this.page.locator("h2.fw-bold");
   readonly addNewProductButton = this.page.locator("[name='add-button']");
   readonly uniqElement = this.addNewProductButton;
@@ -52,6 +54,6 @@ export class ProductsListPage extends SalesPortalPage {
         createdOn,
       });
     }
-    return data
+    return data;
   }
 }

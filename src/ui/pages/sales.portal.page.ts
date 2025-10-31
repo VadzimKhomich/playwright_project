@@ -6,6 +6,7 @@ export abstract class SalesPortalPage extends BasePage {
   abstract uniqElement: Locator;
   readonly spinner = this.page.locator(".spinner-border");
   readonly toastMessage = this.page.locator(".toast-body");
+  readonly closeToastMessageButton = this.page.locator(".toast-container button");
 
   async waitForOpened() {
     await expect(this.uniqElement).toBeVisible();
@@ -14,5 +15,9 @@ export abstract class SalesPortalPage extends BasePage {
 
   async open() {
     await this.page.goto(SALES_PORTAL_URL);
+  }
+
+  async closeNotification() {
+    await this.closeToastMessageButton.click();
   }
 }
