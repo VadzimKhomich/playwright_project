@@ -5,6 +5,8 @@ import { generateProductData } from "data/products/generateProductData";
 import _ from "lodash";
 const s = 6
 console.log(4)
+const editButton = 'Edit'
+console.log(5)
 
 test.describe("[Sales Portal] [Products]", async () => {
   test("Add new product", async ({ homePage, productsPage, addNewProductPage, signInPage }) => {
