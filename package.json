@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --config .prettierrc src/**/*.ts --check src/",
     "prettier:fix": "prettier --config .prettierrc src/**/*.ts --write src/",
-    "format": " npm run prettier && npm run lint",
+    "format": "npm run prettier && npm run lint",
     "format:fix": "npm run prettier:fix && npm run lint:fix",
     "prepare": "husky"
   },
