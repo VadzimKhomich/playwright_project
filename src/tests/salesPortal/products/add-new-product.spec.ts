@@ -3,6 +3,7 @@ import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/notifications/notifications";
 import { generateProductData } from "data/products/generateProductData";
 import _ from "lodash";
+const s = 6
 
 test.describe("[Sales Portal] [Products]", async () => {
   test("Add new product", async ({ homePage, productsPage, addNewProductPage, signInPage }) => {
