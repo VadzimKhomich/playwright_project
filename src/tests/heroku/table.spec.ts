@@ -36,7 +36,7 @@ test.describe("[Heroku App] [table]", () => {
     await expect(allLinks).toHaveCount(NUMBER_OF_LINKS);
   });
 
-  test("Single locator with more than element", async ({ page }) => {
+  test("Single locator with more than element second test", async ({ page }) => {
     await page.goto(URL);
     const allLinks = page.locator("ul li a");
     const arrayOfLinks = await allLinks.all();
