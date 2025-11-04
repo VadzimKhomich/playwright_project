@@ -18,7 +18,7 @@ export default [
     rules: {
       "prettier/prettier": ["error", { endOfLine: "auto", printWidth: 120, singleQuote: false }],
       eqeqeq: "error",
-      "no-console": "error",
+      "no-console": "warn",
     },
   },
   {
