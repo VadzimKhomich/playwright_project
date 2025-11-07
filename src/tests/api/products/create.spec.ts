@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test";
+import { test, expect } from "fixtures/api.fixture";
 import { apiConfig } from "config/apiConfig";
 import { credentials } from "config/env";
 import { generateProductData } from "data/products/generateProductData";
@@ -59,5 +59,21 @@ test.describe("[API] [Sales Portal] [Products]", () => {
     const actualProductData = createProductBody.Product as IProductFromResponse;
     expect(_.omit(actualProductData, ["_id", "createdOn"])).toEqual(productData);
     id = actualProductData._id;
+  });
+
+  test("Create product with API class", async ({ productsAPI, loginAPI }) => {
+    const loginResponse = await loginAPI.login(credentials);
+    validateResponse(loginResponse, {
+      status: STATUSES_CODES.OK,
+      schema: loginSchema,
+      IsSuccess: true,
+      ErrorMessage: null,
+    });
+    const headers = loginResponse.headers;
+    token = headers["authorization"];
+
+    const productData = generateProductData();
+    const createnProduct = await productsAPI.create(productData, token);
+    id = createnProduct.body.Product._id;
   });
 });
