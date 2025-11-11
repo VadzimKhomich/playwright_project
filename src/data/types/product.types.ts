@@ -9,6 +9,11 @@ export interface IProduct {
   notes?: string;
 }
 
+export interface ICreateProductData {
+  title: string;
+  product: IProduct;
+}
+
 export interface ICreatedOn {
   createdOn: string;
 }
