@@ -9,6 +9,11 @@ export interface IProduct {
   notes?: string;
 }
 
+export interface ICreateProductData {
+  title: string;
+  product: IProduct;
+}
+
 export interface ICreatedOn {
   createdOn: string;
 }
@@ -23,4 +28,7 @@ export interface IProductFromResponse extends Required<IProduct>, ICreatedOn, ID
 
 export interface IProductResponse extends IResponseFields {
   Product: IProductFromResponse;
+}
+export interface IProductsResponse extends IResponseFields {
+  Products: IProductFromResponse[];
 }
