@@ -5,6 +5,7 @@ import { STATUSES_CODES } from "data/statuses/statusCodes";
 import _ from "lodash";
 import { validateResponse } from "utils/validateResponseUtils";
 import { invalidCreateProductData, validCreateProductData } from "data/products/testDataApi";
+import { ERROR_MESSAGES } from "data/notifications/notifications";
 
 test.describe("[API] [Sales Portal] [Products valid data]", () => {
   let token = "";
@@ -40,7 +41,7 @@ test.describe("[API] [Sales Portal] [Products invalid data]", () => {
       validateResponse(response, {
         status: STATUSES_CODES.BAD_REQUEST,
         IsSuccess: false,
-        ErrorMessage: "Incorrect request body",
+        ErrorMessage: ERROR_MESSAGES.INCORRECT_BODY,
       });
     });
   }
@@ -58,7 +59,7 @@ test.describe("[API] [Sales Portal] [Products invalid data]", () => {
     validateResponse(response, {
       status: STATUSES_CODES.CONFLICT,
       IsSuccess: false,
-      ErrorMessage: `Product with name '${product.name}' already exists`,
+      ErrorMessage: ERROR_MESSAGES.EXISTS_PRODUCT(product.name),
     });
     const id = product._id;
     await productsApiService.delete(token, id);

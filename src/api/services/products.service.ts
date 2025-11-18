@@ -7,7 +7,7 @@ import { validateResponse } from "utils/validateResponseUtils";
 
 export class ProductsApiServices {
   constructor(private productsAPI: ProductsAPI) {}
-  async create(token: string, productData?: IProduct) {
+  async create(token: string, productData?: Partial<IProduct>) {
     const data = generateProductData(productData);
     const response = await this.productsAPI.create(data, token);
     validateResponse(response, {
