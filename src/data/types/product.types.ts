@@ -1,5 +1,5 @@
 import { MANUFACTURERS } from "data/products/manufactures";
-import { ID, IResponseFields } from "./api/core.types";
+import { ID, IResponseFields, SortOrder } from "./api/core.types";
 
 export interface IProduct {
   name: string;
@@ -7,6 +7,11 @@ export interface IProduct {
   price: number;
   amount: number;
   notes?: string;
+}
+
+export interface ICreateProductData {
+  title: string;
+  product: IProduct;
 }
 
 export interface ICreatedOn {
@@ -23,4 +28,30 @@ export interface IProductFromResponse extends Required<IProduct>, ICreatedOn, ID
 
 export interface IProductResponse extends IResponseFields {
   Product: IProductFromResponse;
+}
+export interface IProductsResponse extends IResponseFields {
+  Products: IProductFromResponse[];
+}
+
+export type ProductsSortField = "createdOn" | "manufacturer" | "price" | "name";
+
+export interface IGetProductsParams {
+  manufacturer: MANUFACTURERS[];
+  search: string;
+  sortField: ProductsSortField;
+  sortOrder: SortOrder;
+  page: number;
+  limit: number;
+}
+
+export interface IProductSortedResponse extends IProductsResponse {
+  total: number;
+  page: number;
+  limit: number;
+  search: string;
+  manufacturer: string[];
+  sorting: {
+    sortField: ProductsSortField;
+    sortOrder: SortOrder;
+  };
 }
