@@ -1,4 +1,4 @@
-import { Actions, IProductFromTable } from "data/types/product.types";
+import { Actions, IProductFromTable, ProductsHeaders } from "data/types/product.types";
 import { Locator } from "@playwright/test";
 import { SalesPortalPage } from "../sales.portal.page";
 import { MANUFACTURERS } from "data/products/manufactures";
@@ -12,6 +12,12 @@ export class ProductsListPage extends SalesPortalPage {
   readonly addNewProductButton = this.page.locator("[name='add-button']");
   readonly uniqElement = this.addNewProductButton;
   readonly tableRow = this.page.locator("tbody tr");
+  readonly tableHeader = this.page.locator("thead tr div[current]");
+  readonly tableHeaderArrow = (name: ProductsHeaders, { direction }: { direction: "asc" | "desc" }) =>
+    this.page
+      .locator("thead th", { has: this.page.locator("div[current]", { hasText: name }) })
+      .locator(`i.${direction === "asc" ? "bi-arrow-down" : "bi-arrow-up"}`);
+  readonly tableheaderNamed = (headerName: ProductsHeaders) => this.tableHeader.filter({ hasText: headerName });
   readonly tableRowByName = (productName: string) =>
     this.page.locator(`//table/tbody/tr[./td[text()="${productName}"]]`);
   readonly detailsButton = (productName: string) => this.tableRowByName(productName).getByTitle("Details");
@@ -55,5 +61,9 @@ export class ProductsListPage extends SalesPortalPage {
       });
     }
     return data;
+  }
+
+  async clickTableHeader(headerName: ProductsHeaders) {
+    await this.tableheaderNamed(headerName).click();
   }
 }
