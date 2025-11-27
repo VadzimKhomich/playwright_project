@@ -55,3 +55,5 @@ export interface IProductSortedResponse extends IProductsResponse {
     sortOrder: SortOrder;
   };
 }
+
+export type ProductsHeaders = "Name" | "Price" | "Manufacturer" | "Created On";
