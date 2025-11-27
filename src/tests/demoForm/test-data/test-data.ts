@@ -1,3 +1,5 @@
+import { Metric } from "data/types/home.types";
+import numeral from "numeral";
 import { IRegistrationData, IUser, IUserData, IUsersData } from "../types/types";
 
 export enum NOTIFICATIONS {
@@ -124,5 +126,33 @@ export const registrationInvalidData: IRegistrationData[] = [
     password: "eewkfTkdfdf",
     title: "Should not register when username more than 40 characters",
     errorMessage: "Username can't exceed 40 characters",
+  },
+];
+
+export const metricsData = [
+  {
+    name: "Orders This Year",
+    value: "22",
+    metric: "orders" as Metric,
+  },
+  {
+    name: "Total Revenue",
+    value: "$" + numeral("9000000").format("0.0a"),
+    metric: "revenue" as Metric,
+  },
+  {
+    name: "New Customers",
+    value: "43",
+    metric: "customers" as Metric,
+  },
+  {
+    name: "Canceled Orders",
+    value: "43",
+    metric: "canceledOredrs" as Metric,
+  },
+  {
+    name: "Avg Order Value",
+    value: "$" + numeral("9000").format("0.0a"),
+    metric: "averageOredrs" as Metric,
   },
 ];
